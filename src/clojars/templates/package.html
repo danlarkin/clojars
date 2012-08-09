@@ -1,0 +1,110 @@
+{% extends "clojars/templates/base.html" %}
+
+{% block title %} :: {{jar.name}}{% endblock %}
+
+{% block main %}
+  <section id="registry">
+
+    <div id="find">
+      <form>
+        <input type="text" name="query" id="query" placeholder="Find packages..." required />
+      </form>
+
+      <ul>
+        <li>
+          <span>underscore.date</span>
+          <p>Underscore.date is a javascript date library that helps create, manipulate, and format dates without extending the `Date` prototype.</p>
+        </li>
+        <li>
+          <span>underscore.inspector</span>
+          <p>A javascript object/value inspector mixin for underscore.js</p>
+        </li>
+        <li class="active">
+          <span>underscore</span>
+          <p>JavaScript's functional programming helper library.</p>
+        </li>
+        <li>
+          <span>underscore.string</span>
+          <p>String manipulation extensions for Underscore.js javascript library.</p>
+        </li>
+        <li>
+          <span>underscorex</span>
+          <p>underscorex are some basic extensions for underscore.js</p>
+        </li>
+        <li>
+          <span>underscore-data</span>
+          <p>Practical tools to manage schemaful mongodb documents.</p>
+        </li>
+      </ul>
+
+    </div>
+
+    <div id="package">
+      <header>
+        <h2>
+          {{jar.name}}
+          <span class="version">{{jar.version}}</span>
+        </h2>
+      </header>
+
+      <p>
+        {{jar.description}}
+      </p>
+
+      <ul class="meta">
+        <li>
+          <a href="/users/{{jar.user.user}}/" class="person">
+            <img alt="{{jar.user.user}}" title="Gravatar Image For {{jar.user.user}}" src="//secure.gravatar.com/avatar/{{jar.user.email|hash:"md5"}}?s=140&d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" />
+            <span>{{jar.user.user}}</span>
+          </a>
+        </li>
+        {% if jar.homepage %}
+        <li><a href="{{jar.homepage}}">Home Page</a></li>
+        {% endif %}
+        {% if jar.scm %}
+        <li><a href="{{jar.scm}}">Source Code</a></li>
+        {% endif %}
+      </ul>
+
+      <h3>Leiningen</h3>
+
+      <code>[{{jar.name}} "{{jar.version}}"]</code>
+
+      <h3>Maven</h3>
+
+      <code>
+        &lt;dependency&gt;<br>
+        &nbsp;&nbsp;&lt;groupId&gt;{{jar.group_name}}&lt;/groupId&gt;<br>
+        &nbsp;&nbsp;&lt;artifactId&gt;{{jar.jar_name}}&lt;/artifactId&gt;<br>
+        &nbsp;&nbsp;&lt;version&gt;{{jar.version}}&lt;/version&gt;<br>
+        &lt;/dependency&gt;
+      </code>
+
+      <div class="columns">
+        <section class="versions">
+          <header>
+            <h3>Versions</h3>
+          </header>
+
+          <ul>
+            {% for version in versions %}
+              <li><a href="/">{{version.version}}</a> <time>{{version.created|date:"MMMM d, yyyy"}}</time></li>
+            {% endfor %}
+          </ul>
+        </section>
+
+        <section class="dependencies">
+          <header>
+            <h3>Dependencies</h3>
+          </header>
+
+          <ul>
+            <li><em>Yet To Be Determined</em></li>
+          </ul>
+        </section>
+      </div>
+
+    </div>
+
+  </section>
+{% endblock %}

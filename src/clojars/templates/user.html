@@ -1,0 +1,23 @@
+{% extends "clojars/templates/base.html" %}
+
+{% block title %} :: {{user.user}}{% endblock %}
+
+{% block main %}
+<b>{{user.user}}</b>
+
+<br><br>
+jars:<br>
+<ul>
+{% for jar in jars %}
+<li>{{jar.jar_name}}</li>
+{% endfor %}
+</ul>
+<br><br>
+groups:<br>
+{% for group in groups %}
+<li>{{group}}</li>
+{% endfor %}
+</ul>
+
+
+{% endblock %}

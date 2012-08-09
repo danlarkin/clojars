@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+
+  <title>clojars{% block title %}{% endblock %}</title>
+
+  <link href="/assets/css/normalize.css" media="screen" rel="stylesheet" />
+  <link href="/assets/css/lipstick.css" media="screen" rel="stylesheet" />
+  <link href="http://fonts.googleapis.com/css?family=Sansita+One&text=clojars" rel="stylesheet" />
+  <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <header>
+    <a href="/">
+      <h1>clojars</h1>
+    </a>
+    <p><span>jars for... uhhhhhhhhhhh... clojure?</span></p>
+  </header>
+
+  {% block main %}
+  {% endblock %}
+
+  <footer>
+    <div id="footer-inner">
+      <p class="lol">Setting weapons to stun.</p>
+      <ul>
+        <li>Package registry for <a href="http://npmjs.org/">npm</a></li>
+        <li><a href="http://npmjs.org/doc/README.html">Install npm</a></li>
+        <li><a href="http://npmjs.org/doc/publish.html">Publish a package</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // 960 Gridder
+    var gOverride =
+      { urlBase: 'http://gridder.andreehansson.se/releases/latest/'
+      , gColor: '#EEEEEE'
+      , gColumns: 12
+      , gOpacity: 0.35
+      , gWidth: 10
+      , pColor: '#C0C0C0'
+      , pHeight: 21
+      , pOffset: 2
+      , pOpacity: 0.65
+      , center: true
+      , gEnabled: false
+      , pEnabled: true
+      , setupEnabled: false
+      , fixFlash: true
+      , size: 900
+      }
+  </script>
+</body>
+
