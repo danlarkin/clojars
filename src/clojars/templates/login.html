@@ -1,0 +1,21 @@
+{% extends "clojars/templates/base.html" %}
+
+{% block title %} :: login{% endblock %}
+
+{% block main %}
+
+{% if failed? %}
+<b>wrong username/password</b>
+{% endif %}
+
+<form method="POST" action="">
+  <label class="control-label" for="username">Username/Email:</label>
+  <input name="username" type="text" class="input-large" id="username" autofocus>
+  <br>
+  <label class="control-label" for="password">Password:</label>
+  <input name="password" type="password" class="input-large" id="password">
+  <br>
+  <button type="submit">Login &raquo;</button>
+
+</form>
+{% endblock %}

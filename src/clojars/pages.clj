@@ -1,6 +1,8 @@
 (ns clojars.pages
   (:require [clabango.parser :refer [render-file]]
-            [clojars.db :as db]))
+            [clojars.db :as db]
+            [laeggen.auth :as auth])
+  (:import (org.mindrot.jbcrypt BCrypt)))
 
 (defn package
   ([request package-name] (package request package-name package-name))
@@ -26,3 +28,22 @@
 
 (defn index [request]
   "homepage")
+
+(defn login [request]
+  (if (auth/authorized? request)
+    {:status 302
+     :headers {"location" "/"}}
+    (if (= :post (:request-method request))
+      (let [form-data (:body request)
+            user (db/find-user (:username form-data))]
+        (if (and user (BCrypt/checkpw (:password form-data) (:password user)))
+          (auth/authorize-and-forward! (:user user) "/profile/")
+          (render-file "clojars/templates/login.html" {:failed? true})))
+      (render-file "clojars/templates/login.html" {}))))
+
+(defn logout [request]
+  (auth/deauthorize-and-forward! request "/"))
+
+(defn profile [request]
+  (let [user (db/find-user (:laeggen-id-value request))]
+    (str "profile for " (:user user))))

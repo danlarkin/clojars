@@ -8,4 +8,5 @@
                  [clabango "0.2-SNAPSHOT"]
                  [korma "0.3.0-beta10"]
                  [laeggen "0.1-SNAPSHOT"]
+                 [org.mindrot/jbcrypt "0.3m"]
                  [org.xerial/sqlite-jdbc "3.6.17"]])
