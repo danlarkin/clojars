@@ -3,7 +3,12 @@
             [korma.db :refer [defdb transaction rollback]]
             [korma.core :refer [defentity select group fields order
                                 modifier exec-raw where limit values
-                                raw insert update set-fields]]))
+                                raw insert update set-fields]])
+  (:import (java.util Date)
+           (org.mindrot.jbcrypt BCrypt)))
+
+(defn bcrypt [s]
+  (BCrypt/hashpw s (BCrypt/gensalt (config :bcrypt-work-factor))))
 
 (defdb mydb (config :db))
 (defentity users)
@@ -61,3 +66,16 @@
   (map :name (select groups
                      (fields :name)
                      (where {:user username}))))
+
+(defn add-user [{:keys [email username password ssh]}]
+  (insert users
+          (values {:email email
+                   :user username
+                   :password (bcrypt password)
+                   :ssh_key (or ssh "")
+                   :created (Date.)
+                   ;;TODO: remove salt field
+                   :salt ""}))
+  (insert groups
+          (values {:name (str "org.clojars." username)
+                   :user username})))

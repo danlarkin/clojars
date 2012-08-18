@@ -10,6 +10,7 @@
  #"^/users/([^/]+)/$" #'clojars.pages/user
  #"^/login/$" #'clojars.pages/login
  #"^/logout/$" #'clojars.pages/logout
+ #"^/register/$" #'clojars.pages/register
  #"^/profile/$" (auth/authorization-required "/" #'clojars.pages/profile)
  #"^/([^/]+)/$" #'clojars.pages/package
  #"^/([^/]+)/([^/]+)/$" #'clojars.pages/package)

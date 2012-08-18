@@ -1,0 +1,41 @@
+{% extends "clojars/templates/base.html" %}
+
+{% block title %} :: register{% endblock %}
+
+{% block main %}
+
+<form method="POST" action="">
+  <label for="email">Email:</label>
+  <input name="email" type="email" id="email" value="{{data.email}}" autofocus>
+  {% for error in validation.email %}
+  - {{error}}
+  {% endfor %}
+  <br>
+  <label for="username">Username:</label>
+  <input name="username" type="text" id="username" value="{{data.username}}">
+  {% for error in validation.username %}
+  - {{error}}
+  {% endfor %}
+  <br>
+  <label for="password">Password:</label>
+  <input name="password" type="password" id="password">
+  {% for error in validation.password %}
+  - {{error}}
+  {% endfor %}
+  <br>
+  <label for="confirmpassword">Confirm Password:</label>
+  <input name="confirmpassword" type="password" id="confirmpassword">
+  {% for error in validation.confirmpassword %}
+  - {{error}}
+  {% endfor %}
+  <br>
+  <label for="ssh">SSH public key:</label>
+  <textarea name="ssh" id="ssh">{{data.ssh}}</textarea>
+  {% for error in validation.ssh %}
+  - {{error}}
+  {% endfor %}
+  <br>
+  <button type="submit">Register &raquo;</button>
+
+</form>
+{% endblock %}

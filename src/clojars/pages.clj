@@ -1,6 +1,7 @@
 (ns clojars.pages
   (:require [clabango.parser :refer [render-file]]
             [clojars.db :as db]
+            [clojars.validate :as validate]
             [laeggen.auth :as auth])
   (:import (org.mindrot.jbcrypt BCrypt)))
 
@@ -43,6 +44,37 @@
 
 (defn logout [request]
   (auth/deauthorize-and-forward! request "/"))
+
+(defn validate-add-user [m]
+  (-> m
+      (validate/validate
+       (partial validate/email-validator :email)
+       (partial validate/not-blank-validator :username)
+       (partial validate/not-blank-validator :password)
+       (partial validate/equality-validator [:password :confirmpassword])
+       (partial validate/username-validator :username)
+       (partial validate/ssh-key-validator :ssh))
+      ((fn [m]
+         (if-let [confirmpassword (m [:password :confirmpassword])]
+           (assoc m :confirmpassword confirmpassword)
+           m)))))
+
+(defn register [request]
+  (if (auth/authorized? request)
+    {:status 302
+     :headers {"location" "/"}}
+    (if (= :post (:request-method request))
+      (let [form-data (:body request)
+            validation (validate-add-user form-data)]
+        (if (empty? validation)
+          (do
+            (db/add-user
+             (select-keys form-data [:email :username :password :ssh]))
+            (auth/authorize-and-forward! (:username form-data) "/profile/"))
+          (render-file "clojars/templates/register.html"
+                       {:data form-data
+                        :validation validation})))
+      (render-file "clojars/templates/register.html" {}))))
 
 (defn profile [request]
   (let [user (db/find-user (:laeggen-id-value request))]
